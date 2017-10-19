@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "989275569163",
+    "firebase_url": "https://rsa-droid.firebaseio.com",
+    "project_id": "rsa-droid",
+    "storage_bucket": "rsa-droid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989275569163:android:a4c356123ada46bf",
+        "android_client_info": {
+          "package_name": "com.cns.rsa_droid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989275569163-3bl4vsbkg39sejd30a8djjtkio1ti9op.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cns.rsa_droid",
+            "certificate_hash": "7a6dd9799a9a4786dde5f2b15ef5bb27eba2563a"
+          }
+        },
+        {
+          "client_id": "989275569163-tq32fthmv8vtdaj1vs8nptedtid92r7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkpYii3tDYdmsBNiNMjgrSNp_efZ6zx6E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989275569163-tq32fthmv8vtdaj1vs8nptedtid92r7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

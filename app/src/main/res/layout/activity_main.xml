@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cns.rsa_droid.MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="140dp"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/button"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="encrypt_global_fn"
+        android:text="Encrypt &amp; Send"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="75dp"
+        android:layout_alignTop="@+id/editText"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="Message"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_below="@+id/button5"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btn_fn"
+        android:text="Settings"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="targetno_fn"
+        android:text="Clear"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/button2" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:layout_alignBaseline="@+id/button5"
+        android:layout_alignBottom="@+id/button5"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/button5" />
+</RelativeLayout>
