@@ -4,6 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.content.Context;
+import android.graphics.Path;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -91,6 +93,13 @@ public class Settings extends AppCompatActivity {
         String usr=tv3.getText().toString();
 
         try {
+
+            File f = new File(Environment.getExternalStorageDirectory() + "/Download/data");
+            if(!f.isDirectory())
+            {
+                new File(Environment.getExternalStorageDirectory() + "/Download/data").mkdirs();
+            }
+
             String path = Environment.getExternalStorageDirectory().toString()+"/Download/data/phone.txt";
             File directory = new File(path);
 
@@ -122,6 +131,11 @@ public class Settings extends AppCompatActivity {
         BigInteger d=e_.modInverse(phi);
 
         try{
+            File f = new File(Environment.getExternalStorageDirectory() + "/Download/data");
+            if(!f.isDirectory())
+            {
+                new File(Environment.getExternalStorageDirectory() + "/Download/data").mkdirs();
+            }
             String path = Environment.getExternalStorageDirectory().toString()+"/Download/data/keys.txt";
             File directory = new File(path);
 
@@ -144,8 +158,9 @@ public class Settings extends AppCompatActivity {
             ex3.printStackTrace();
         }
         EditText et3=(EditText)findViewById(R.id.editText3);
+        EditText tv2=(EditText) findViewById(R.id.editText2);
 
-
+        a1=tv2.getText().toString().trim();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("u_"+a1);
         mDatabase.child("N").setValue(n.toString());
         mDatabase.child("e").setValue("65537");

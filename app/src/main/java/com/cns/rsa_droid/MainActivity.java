@@ -1,10 +1,14 @@
 package com.cns.rsa_droid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -44,14 +48,27 @@ public class MainActivity extends AppCompatActivity {
 
     public DatabaseReference mDatabase;
     public static String my_ph="";
+    public static String my_id="";
     public static BigInteger n,d,p,q;
 
-    DataSnapshot db;
+    public static DataSnapshot db;
+    public static String latest_message="";
+    public static String prev_message="";
     String targetno="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat
+                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 12);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat
+                    .requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 12);
+        }
 
         try{//Read user's phone number from file
             my_ph="";
@@ -80,6 +97,21 @@ public class MainActivity extends AppCompatActivity {
             p=new BigInteger(stringArray[2]);
             q=new BigInteger(stringArray[3]);
 
+            path = Environment.getExternalStorageDirectory().toString()+"/Download/data/contact.txt";
+            directory = new File(path);
+            fis = new FileInputStream(directory);
+            in = new DataInputStream(fis);
+            br = new BufferedReader(new InputStreamReader(in));
+            String contact_str="";
+            while ((strLine = br.readLine()) != null) {
+                contact_str = contact_str + strLine;}
+            in.close();
+
+            EditText et4=(EditText) findViewById(R.id.editText4);
+            et4.setText(contact_str);
+            targetno=contact_str;
+
+
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -92,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 TextView tv2=(TextView)findViewById(R.id.textView2);
+
 
                 try
                 {
@@ -119,10 +152,11 @@ public class MainActivity extends AppCompatActivity {
                         {
                             exc.printStackTrace();
                         }
-
+                        latest_message=op;
                         tv2.setText(tv2.getText()+"\n"+op);
 
                     }
+
 
                 }catch(Exception ex)
                 {
@@ -136,6 +170,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        Toast.makeText(MainActivity.this,"HHEEEHHEHEHE" + prev_message,Toast.LENGTH_SHORT);
+
 
         String nval="";
         try{
@@ -217,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        startService(new Intent(this, BackgroundService.class));
+
         /*
         Spinner spinners = (Spinner) findViewById(R.id.spinnerx);
         spinners.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -275,9 +317,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void encrypt_global_fn(View view) {
 
+
+        try {
+            File f = new File(Environment.getExternalStorageDirectory() + "/Download/data");
+            if (!f.isDirectory()) {
+                new File(Environment.getExternalStorageDirectory() + "/Download/data").mkdirs();
+            }
+            String path = Environment.getExternalStorageDirectory().toString() + "/Download/data/contact.txt";
+            File directory = new File(path);
+            FileOutputStream fos = new FileOutputStream(directory);
+
+            EditText e4=(EditText)findViewById(R.id.editText4);
+            fos.write(e4.getText().toString().trim().getBytes());
+            fos.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         EditText e1=(EditText)findViewById(R.id.editText);
         String str1 =e1.getText().toString();
         String id_str=db.child("u_"+my_ph).child("id").getValue().toString();
+        my_id=id_str;
         String str2=id_str+": "+str1;
         e1.setText("");
 
