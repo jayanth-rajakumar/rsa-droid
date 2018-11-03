@@ -1,6 +1,7 @@
 package com.cns.rsa_droid;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.*;
 import android.os.*;
@@ -10,6 +11,10 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+
+//https://stackoverflow.com/questions/9177212/creating-background-service-in-android
+
 
 public class BackgroundService extends Service {
 
@@ -76,7 +81,12 @@ public class BackgroundService extends Service {
                 String not_username = MainActivity.latest_message.substring(0, MainActivity.latest_message.indexOf(':'));
                 String not_message = MainActivity.latest_message.substring(MainActivity.latest_message.indexOf(':') + 2);
 
-              //  Toast.makeText(context, MainActivity.latest_message, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setAction(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+               // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_stat_name2)
                         .setContentTitle(not_username)
@@ -84,6 +94,8 @@ public class BackgroundService extends Service {
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(not_message))
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_ALL);
 
                 NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
