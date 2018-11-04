@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                     db=dataSnapshot;
 
                    // String name =dataSnapshot.getValue().toString();
-                    tv2.setText("");
+                   // tv2.setText("");
                     chatrows.clear();
 
 
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerViewAda
                             exc.printStackTrace();
                         }
                         latest_message=op;
-                        tv2.setText(tv2.getText()+"\n"+op);
+                       // tv2.setText(tv2.getText()+"\n"+op);
                         chatrows.add(op);
 
                     }
