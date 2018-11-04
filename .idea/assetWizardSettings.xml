@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="fffdfb" />
+                                                <entry key="color" value="ffffff" />
                                                 <entry key="paddingPercent" value="10" />
                                               </map>
                                             </option>
@@ -47,10 +47,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="TEXT" />
-                                      <entry key="backgroundColor" value="029e22" />
+                                      <entry key="backgroundColor" value="075e54" />
                                       <entry key="dogEared" value="true" />
                                       <entry key="iconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="ic_launcher_rsa" />
+                                      <entry key="outputName" value="ic_launcher_rsa_dark" />
                                     </map>
                                   </option>
                                 </PersistentState>

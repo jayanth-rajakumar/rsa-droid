@@ -1,9 +1,12 @@
 package com.cns.rsa_droid;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -11,14 +14,20 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,13 +53,14 @@ import java.io.DataInputStream;
 //import static com.cns.rsa_droid.R.id.spinner;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
 
     public DatabaseReference mDatabase;
     public static String my_ph="";
     public static String my_id="";
     public static BigInteger n,d,p,q;
-
+    MyRecyclerViewAdapter adapter;
+    ArrayList<String> chatrows = new ArrayList<>();
     public static DataSnapshot db;
     public static String latest_message="";
     public static String prev_message="";
@@ -60,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+       // getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#075e54")));
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat
                     .requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 12);
@@ -69,6 +83,17 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat
                     .requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 12);
         }
+
+
+
+
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvChat);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MyRecyclerViewAdapter(this, chatrows);
+        //adapter.setClickListener(this);
+
+        recyclerView.setAdapter(adapter);
 
         try{//Read user's phone number from file
             my_ph="";
@@ -132,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
                    // String name =dataSnapshot.getValue().toString();
                     tv2.setText("");
+                    chatrows.clear();
+
 
                     for(DataSnapshot childx:db.child("u_"+my_ph).child("Messages").child("u_"+targetno).getChildren())
                     {
@@ -154,9 +181,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                         latest_message=op;
                         tv2.setText(tv2.getText()+"\n"+op);
+                        chatrows.add(op);
 
                     }
+                    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvChat);
+                    adapter.notifyDataSetChanged();
 
+                    recyclerView.scrollToPosition(chatrows.size() - 1);
 
                 }catch(Exception ex)
                 {
@@ -172,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Toast.makeText(MainActivity.this,"HHEEEHHEHEHE" + prev_message,Toast.LENGTH_SHORT);
+
 
 
         String nval="";
@@ -258,6 +289,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         startService(new Intent(this, BackgroundService.class));
+
+
 
         /*
         Spinner spinners = (Spinner) findViewById(R.id.spinnerx);
@@ -433,5 +466,9 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child("u_"+my_ph).child("Messages").removeValue();
 
 
+    }
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }
